@@ -1,7 +1,5 @@
 const { Router } = require("express");
-const {
-  immovablesController,
-} = require("../controllers/immovables.controller");
+const { commentsController } = require("../controllers/comments.controller");
 
 const router = Router();
 module.exports = router;
