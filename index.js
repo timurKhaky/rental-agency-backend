@@ -10,6 +10,7 @@ app.use(express.json());
 app.use(cors());
 app.use("/users", require("./routes/users.route"));
 app.use("/immovables", require("./routes/immovables.route"));
+app.use("/comments", require("./routes/comments.route"));
 
 async function server(port) {
   try {
