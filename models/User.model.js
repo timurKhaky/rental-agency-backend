@@ -6,6 +6,11 @@ const UserSchema = mongoose.Schema(
     login: { type: String, unique: true },
     password: { type: String },
     role: { type: String, default: "user" },
+    order: {
+      type: mongoose.SchemaTypes.ObjectId,
+      default: null,
+      ref: "Immovables",
+    },
   },
   { timestamps: true }
 );
