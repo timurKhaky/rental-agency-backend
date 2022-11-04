@@ -2,7 +2,21 @@ const mongoose = require("mongoose");
 
 const ImmovablesSchema = mongoose.Schema(
   {
-    //тут модель
+    image:[],
+    name: String,
+    price: Number,
+    description: String,
+    location: String,
+    options: {
+      Baths: Number,
+      Garage: Number,
+      Beds: Number,
+    },
+    isOwner: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      default: null,
+    },
   },
   { timestamps: true }
 );
