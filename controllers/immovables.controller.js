@@ -3,15 +3,13 @@ const Immovables = require("../models/Immovables.model");
 module.exports.immovablesController = {
   async postImmovables(req, res) {
     try {
-      const { name, price, description, location, options, isOwner } = req.body;
+      const { name, price, description, location, options } = req.body;
       const data = await Immovables.create({
-        image: req.file.path,
         name,
         price,
         description,
         location,
         options,
-        isOwner,
       });
       return res.json(data);
     } catch (error) {
@@ -49,7 +47,7 @@ module.exports.immovablesController = {
 
   async getImmovables(req, res) {
     try {
-      const data = await Immovables.find();
+      const data = await Immovables.find().sort(req.body.filter);
       return res.json(data);
     } catch (error) {
       return res.json({ error: error.message });
