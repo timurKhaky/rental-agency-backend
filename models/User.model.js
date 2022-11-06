@@ -7,10 +7,11 @@ const UserSchema = mongoose.Schema(
     password: { type: String },
     role: { type: String, default: "user" },
     order: {
-      type: mongoose.SchemaTypes.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       default: null,
       ref: "Immovables",
     },
+    favorites: [],
   },
   { timestamps: true }
 );
