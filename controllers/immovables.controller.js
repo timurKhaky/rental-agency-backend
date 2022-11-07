@@ -1,3 +1,11 @@
-const Immovables = require("../models/Immovables.model");
+const mongoose = require("mongoose");
 
-module.exports.immovablesController = {};
+const ImmovablesSchema = mongoose.Schema(
+  {
+    //тут модель
+  },
+  { timestamps: true }
+);
+
+const Immovables = mongoose.model("Immovables", ImmovablesSchema);
+module.exports = Immovables;
