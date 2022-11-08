@@ -4,15 +4,17 @@ const Comment = require("../models/Comment.model");
 module.exports.commentsController = {
     getComments: async (req, res) => {
         try {
-            const comments = await Comment.find().populate('userId reviewToPost')
+            const comments = await Comment.find().populate({path: 'userId',select : 'type'}).populate('reviewToPost')
+
             res.json(comments)
         } catch (error) {
-            res.json(error.message)
+            res.json({error: error.message})
         }
     },
     deleteComment: async (req, res) => {
         try {
-            await Comment.findByIdAndRemove(req.params.id)
+            await findByIdAndRemove(req.params.id)
+
             res.json("комментарий удален")
 
         } catch (error) {
@@ -21,16 +23,17 @@ module.exports.commentsController = {
         }
     },
     addComment: async (req, res) => {
-        const { text, userId, reviewToPost } = req.body
+        const { text, userId, stars } = req.body
 
         try {
-            await Comment.create({
-                text, userId, reviewToPost
+           const comment =  await Comment.create({
+                text, userId: req.user, reviewToPost: req.params.id, stars
             })
-            res.json("комментарий добавлен")
+
+            return res.json(comment)
         } catch (error) {
-            res.json(error.message)
+            return res.json(error.message)
         }
     }
-
 };
+

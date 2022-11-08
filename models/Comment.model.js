@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const CommentSchema = mongoose.Schema(
   {
+    stars: Number,
     text: {type: String,
       required: true},
     userId: {
