@@ -2,17 +2,15 @@ const mongoose = require("mongoose");
 
 const CommentSchema = mongoose.Schema(
   {
-    text: {type: String,
-      required: true},
+    text: { type: String, required: true },
     userId: {
       type: mongoose.SchemaTypes.ObjectId,
-      ref: 'User'
+      ref: "User",
     },
     reviewToPost: {
       type: mongoose.SchemaTypes.ObjectId,
-      ref: "Immovables"
-    }
-    
+      ref: "Immovables",
+    },
   },
   { timestamps: true }
 );

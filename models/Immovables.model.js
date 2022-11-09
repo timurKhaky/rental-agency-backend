@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const ImmovablesSchema = mongoose.Schema(
   {
-    image:[],
+    image: [],
     name: String,
     price: Number,
     description: String,
@@ -12,11 +12,7 @@ const ImmovablesSchema = mongoose.Schema(
       Garage: Number,
       Beds: Number,
     },
-    isOwner: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      default: null,
-    },
+    freeToOrder: String,
   },
   { timestamps: true }
 );
