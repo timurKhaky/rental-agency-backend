@@ -17,30 +17,40 @@ module.exports.immovablesController = {
       return res.json({ error: error.message });
     }
   },
-
   async patchImmovables(req, res) {
-    console.log(req.file);
     try {
-      const { name, price, description, location, options, isOwner } = req.body;
-      const data = await Immovables.findByIdAndUpdate(
+      const {
+        name,
+        price,
+        description,
+        location,
+        options,
+        isOwner,
+        freeToOrder,
+      } = req.body;
+      let data = await Immovables.findByIdAndUpdate(
         req.params.id,
         {
-          $push: { image: req.file.path },
           name,
           price,
           description,
           location,
           options,
           isOwner,
+          freeToOrder,
         },
         { new: true }
       );
+      if (!!req.file) {
+        data = await Immovables.findByIdAndUpdate(req.params.id, {
+          $push: { image: req.file.path },
+        });
+      }
       return res.json(data);
     } catch (error) {
       return res.json({ error: error.message });
     }
   },
-
   async deleteImmovablesId(req, res) {
     try {
       await Immovables.findByIdAndDelete(req.params.id);
@@ -49,7 +59,6 @@ module.exports.immovablesController = {
       return res.json({ error: error.message });
     }
   },
-
   async getImmovables(req, res) {
     try {
       const data = await Immovables.find().sort(req.body.filter);

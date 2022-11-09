@@ -11,6 +11,10 @@ const UserSchema = mongoose.Schema(
       default: null,
       ref: "Immovables",
     },
+    orderDate: {
+      start: String,
+      end: String,
+    },
     favorites: [],
   },
   { timestamps: true }

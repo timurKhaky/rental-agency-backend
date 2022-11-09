@@ -80,20 +80,62 @@ module.exports.usersController = {
   },
   async addOrder(req, res) {
     try {
+      const orderHouse = await Immovables.findById(req.body.id);
+      console.log(req.body);
       const user = await User.findById(req.user.id);
-      if (!!!user.order) {
-        const data = await User.findByIdAndUpdate(
-          req.user.id,
-          { order: req.body.id },
-          { new: true }
-        );
-        await Immovables.findByIdAndUpdate(req.body.id, {
-          isOwner: req.user.id,
-        });
-        return res.json(data);
-      } else {
-        return res.json({ error: "user already have order" });
+      if (!!!orderHouse.isOwner) {
+        if (!!!user.order) {
+          const data = await User.findByIdAndUpdate(
+            req.user.id,
+            {
+              order: req.body.id,
+              orderDate: {
+                start: req.body.orderStart,
+                end: req.body.orderEnd,
+              },
+            },
+            { new: true }
+          );
+          const newHouse = await Immovables.findByIdAndUpdate(
+            req.body.id,
+            {
+              isOwner: req.user.id,
+              freeToOrder: req.body.orderEnd,
+            },
+            { new: true }
+          );
+          return res.json({ data, newHouse });
+        } else {
+          return res.json({ error: "user already have order" });
+        }
       }
+      return res.json("already in order");
+    } catch (error) {
+      return res.json({ error: error.message });
+    }
+  },
+  async removeOrder(req, res) {
+    try {
+      await User.findByIdAndUpdate(
+        req.user.id,
+        {
+          order: null,
+          orderDate: {
+            start: null,
+            end: null,
+          },
+        },
+        { new: true }
+      );
+      await Immovables.findByIdAndUpdate(
+        req.body.id,
+        {
+          isOwner: null,
+          freeToOrder: null,
+        },
+        { new: true }
+      );
+      return res.json("order deleted");
     } catch (error) {
       return res.json({ error: error.message });
     }
