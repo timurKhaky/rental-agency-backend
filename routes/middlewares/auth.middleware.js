@@ -3,17 +3,17 @@ module.exports = (req, res, next) => {
   const jwt = require("jsonwebtoken");
 
   if (!authorization) {
-    return res.status(401).json("Ошибка авторизации");
+    return res.status(401).json({ error: "Ошибка авторизации" });
   }
 
   const [type, token] = authorization.split(" ");
   if (type !== "Bearer") {
-    return res.status(401).json("Ошибка авторизации");
+    return res.status(401).json({ error: "Ошибка авторизации" });
   }
   try {
     req.user = jwt.verify(token, process.env.SECRET_JWT_KEY);
     next();
   } catch (error) {
-    return res.status(401).json("Ошибка авториции");
+    return res.status(401).json({ error: "Ошибка авторизации" });
   }
 };

@@ -1,4 +1,4 @@
- const mongoose = require("mongoose");
+const mongoose = require("mongoose");
 const ImmovablesSchema = mongoose.Schema(
   {
     image: [],
@@ -11,10 +11,16 @@ const ImmovablesSchema = mongoose.Schema(
       Garage: Number,
       Beds: Number,
     },
-    freeToOrder: String,
+    owners: [
+      {
+        _userId: { type: mongoose.SchemaTypes.ObjectId, ref: "User" },
+        start: String,
+        end: String,
+      },
+    ],
   },
   { timestamps: true }
 );
 
- const Immovables = mongoose.model("Immovables", ImmovablesSchema);
- module.exports = Immovables;
+const Immovables = mongoose.model("Immovables", ImmovablesSchema);
+module.exports = Immovables;

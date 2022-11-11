@@ -10,6 +10,8 @@ const CommentSchema = mongoose.Schema(
       type: mongoose.SchemaTypes.ObjectId,
       ref: "Immovables",
     },
+    text: String,
+    stars: Number,
   },
   { timestamps: true }
 );

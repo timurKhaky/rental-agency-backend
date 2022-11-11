@@ -12,6 +12,7 @@ app.use("/images", express.static(path.resolve(__dirname, "images")));
 app.use("/users", require("./routes/users.route"));
 app.use("/immovables", require("./routes/immovables.route"));
 app.use("/comments", require("./routes/comments.route"));
+app.use("/offers", require("./routes/offers.route"));
 
 async function server(port) {
   try {

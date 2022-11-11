@@ -23,13 +23,13 @@ module.exports.usersController = {
     if (!condidate) {
       return res
         .status(401)
-        .json("Ошибка авторизации. Пользователь не найден.");
+        .json({ error: "Ошибка авторизации. Пользователь не найден." });
     }
     const valid = await bcrypt.compare(password, condidate.password);
     if (!valid) {
       return res
         .status(401)
-        .json("Ошибка авторизации. Проверьте введенные данные.");
+        .json({ error: "Ошибка авторизации. Пользователь не найден." });
     }
     try {
       const payload = { id: condidate.id, login: condidate.login };
@@ -69,10 +69,7 @@ module.exports.usersController = {
   },
   async getInfo(req, res) {
     try {
-      const data = await User.findById(req.user.id).populate({
-        path: "order",
-        select: "name image options",
-      });
+      const data = await User.findById(req.user.id);
       return res.json(data);
     } catch (error) {
       return res.json({ error: error.message });
@@ -80,36 +77,14 @@ module.exports.usersController = {
   },
   async addOrder(req, res) {
     try {
-      const orderHouse = await Immovables.findById(req.body.id);
-      console.log(req.body);
-      const user = await User.findById(req.user.id);
-      if (!!!orderHouse.isOwner) {
-        if (!!!user.order) {
-          const data = await User.findByIdAndUpdate(
-            req.user.id,
-            {
-              order: req.body.id,
-              orderDate: {
-                start: req.body.orderStart,
-                end: req.body.orderEnd,
-              },
-            },
-            { new: true }
-          );
-          const newHouse = await Immovables.findByIdAndUpdate(
-            req.body.id,
-            {
-              isOwner: req.user.id,
-              freeToOrder: req.body.orderEnd,
-            },
-            { new: true }
-          );
-          return res.json({ data, newHouse });
-        } else {
-          return res.json({ error: "user already have order" });
-        }
-      }
-      return res.json("already in order");
+      return res.json("qq");
+    } catch (error) {
+      return res.json({ error: error.message });
+    }
+  },
+  async comfirmOrder(req, res) {
+    try {
+      return res.json("qq");
     } catch (error) {
       return res.json({ error: error.message });
     }
