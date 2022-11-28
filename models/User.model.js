@@ -4,9 +4,9 @@ const UserSchema = mongoose.Schema(
   {
     nickname: { type: String, default: "тестовый никнейм" + Date.now() },
     login: { type: String, unique: true },
+    dateOfBirth: String,
     password: { type: String },
     role: { type: String, default: "user" },
-    favorites: [],
   },
   { timestamps: true }
 );
